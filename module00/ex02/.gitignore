@@ -1,0 +1,15 @@
+# Build artifacts
+*.o
+*.obj
+*.d
+*.dSYM/
+*.out
+account
+
+# OS files
+.DS_Store
+
+# Logs: ignore by default but keep reference logs
+*.log
+!19920104_091532.log
+!my.log

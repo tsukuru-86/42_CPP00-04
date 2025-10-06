@@ -1,0 +1,13 @@
+# Build artifacts
+*.o
+*.obj
+*.d
+*.dSYM/
+*.out
+megaphone
+
+# OS files
+.DS_Store
+
+# Documents
+*.pdf

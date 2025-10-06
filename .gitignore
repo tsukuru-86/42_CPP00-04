@@ -1,0 +1,13 @@
+    # Build artifacts
+    *.o
+    *.obj
+    *.out
+    *.d
+    *.dSYM/
+    # OS files
+    *.pdf
+    # Logs (keep reference logs in module00/ex02)
+    *.log
+    !module00/ex02/19920104_091532.log
+    !module00/ex02/my.log
+
