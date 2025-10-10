@@ -12,7 +12,7 @@ int main()
 	std::cout << "文字列変数のアドレス: " << &str << std::endl;
 	std::cout << "ポインタの保持するアドレス: " << stringPTR << std::endl;
 	std::cout << "参照のアドレス" << &stringREF << std::endl;
-
+	
 	std::cout << "\n値の出力:" << std::endl;
     std::cout << "文字列変数の値: " << str << std::endl;
     std::cout << "ポインタを使用した値: " << *stringPTR << std::endl;

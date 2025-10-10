@@ -5,9 +5,12 @@
     *.d
     *.dSYM/
     # OS files
+    .DS_Store
+    # Documents
     *.pdf
     # Logs (keep reference logs in module00/ex02)
     *.log
     !module00/ex02/19920104_091532.log
     !module00/ex02/my.log
-
+    
+/CPP_42/
