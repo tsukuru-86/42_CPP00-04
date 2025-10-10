@@ -1,16 +1,40 @@
-    # Build artifacts
-    *.o
-    *.obj
-    *.out
-    *.d
-    *.dSYM/
-    # OS files
-    .DS_Store
-    # Documents
-    *.pdf
-    # Logs (keep reference logs in module00/ex02)
-    *.log
-    !module00/ex02/19920104_091532.log
-    !module00/ex02/my.log
-    
+# Build artifacts
+*.o
+*.obj
+*.out
+*.d
+*.a
+*.so
+*.dylib
+*.dSYM/
+
+# OS files
+.DS_Store
+
+# Documents
+*.pdf
+
+# Logs (keep reference logs in module00/ex02)
+*.log
+!module00/ex02/19920104_091532.log
+!module00/ex02/my.log
+
+# Local workspace
 /CPP_42/
+
+# Project binaries by convention
+module01/ex01/zombieHorde
+module01/ex03/violence
+module01/ex04/replace
+module01/ex05/harl
+
+module02/ex00/ex00
+module02/ex01/ex01
+module02/ex02/ex02
+
+module03/ex00/ClapTrap
+module03/ex01/ScavTrap
+module03/ex02/FragTrap
+module03/ex03/DiamondTrap
+
+practice/a.out
