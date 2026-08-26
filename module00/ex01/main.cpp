@@ -3,7 +3,6 @@
 #include "Contact.hpp"
 #include "PhoneBook.hpp"
 #include <cctype>
-#include <cstdlib>
 
 static std::string promptNonEmpty(const std::string& label) {
     std::string s;
@@ -65,7 +64,13 @@ int main() {
                     std::cout << "数字で入力してください。\n";
                     continue;
                 }
-                int idx = std::atoi(indexStr.c_str());
+
+                if (indexStr.size() != 1) {
+                    std::cout << "有効範囲は 1 ~ " << pb.size() << "です。\n";
+                    continue;
+                }
+
+                int idx = indexStr[0] - '0';
                 if (!pb.printDetailByIndex(idx))
                     std::cout << "有効範囲は 1 ~ " << pb.size() << "です。\n";
             }
