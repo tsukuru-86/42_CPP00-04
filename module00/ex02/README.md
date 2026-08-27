@@ -1,146 +1,114 @@
-# 銀行口座管理システム解説書
+# Exercise 02: The Job Of Your Dreams
 
-## 1. プログラム概要
-このプログラムは銀行口座の基本的な操作（作成、入金、引き出し、残高照会）をシミュレートするシステムです。
+このREADMEは、CPP Module 00課題文のChapter II（General rules）とChapter VI（Exercise 02）に沿ったレビュー用メモです。
 
-## 2. ファイル構成
-- `Account.hpp`: アカウントクラスの定義
-- `Account.cpp`: アカウントクラスの実装
-- `Tests.cpp`: テストケースの実装
-- `19920104_091532.log`: 期待される出力のサンプル
+## 提出条件
 
-## 3. クラス設計（Account.hpp）
+| 項目 | 課題文の指定 |
+|---|---|
+| Directory | `ex02/` |
+| Files to submit | `Makefile`, `Account.cpp`, `Account.hpp`, `tests.cpp` |
+| Exercise固有の禁止事項 | None |
 
-### 3.1 静的メンバ変数
-```cpp
-static int _nbAccounts;      // アカウントの総数
-static int _totalAmount;     // 全アカウントの総残高
-static int _totalNbDeposits; // 全アカウントの総入金回数
-static int _totalNbWithdrawals; // 全アカウントの総引き出し回数
+Exercise固有の禁止事項がなくても、CPP Module 00の共通規則は適用されます。課題文には、Exercise 02を完了しなくてもこのモジュールの合格は可能だと記載されています。
+
+## 課題文の共通規則
+
+- `c++ -Wall -Wextra -Werror` でコンパイルする
+- `-std=c++98` を追加してもコンパイルできること
+- 特に指定がなければ、出力は標準出力へ表示し、各メッセージを改行で終える
+- 外部ライブラリ、C++11以降、Boostを使わない
+- `*printf()`、`*alloc()`、`free()`を使わない
+- `using namespace` と `friend` を使わない
+- ヘッダ内に関数実装を書かず、必要な依存を含め、include guardを付ける
+- C課題と同じMakefile規則に従う
+
+一般規則ではModule 08より前のSTLコンテナ・アルゴリズムは禁止されています。一方、このExerciseで配布されるテストコード自体は `vector` と `algorithm` を使用しています。レビューでは、配布ファイルと受験者が再構築した `Account.cpp` を区別して確認します。
+
+## 課題文が求めること
+
+課題文では、次の3ファイルがモジュールのイントラページから提供されると説明されています。
+
+- `Account.hpp`
+- `tests.cpp`
+- 見本のログファイル
+
+受験者が行う中心作業は `Account.cpp` の再構築です。テストプログラムを実行した出力を、保存されたログの出力と一致させることが求められています。
+
+## 課題文が認める出力差
+
+### timestamp
+
+課題文には、見本ログを作成したテストは過去に実行されたため、実行時のtimestampは当然異なると記載されています。
+
+課題文には「生のUnix timestampを表示する」とは書かれていません。見本ログが示す形式は次のとおりです。
+
+```text
+[19920104_091532]
 ```
 
-### 3.2 インスタンスメンバ変数
-```cpp
-int _accountIndex;    // アカウント番号
-int _amount;         // 残高
-int _nbDeposits;    // このアカウントの入金回数
-int _nbWithdrawals; // このアカウントの引き出し回数
+この例から確認できる表示形式は `[YYYYMMDD_HHMMSS]` です。レビューではtimestampの値そのものを見本ログと一致させず、同じ形式で実行時に生成されていることを確認します。
+
+### デストラクタの順序
+
+課題文は、デストラクタが呼ばれる順序はコンパイラやOSによって異なり、逆順になる場合があると明記しています。したがって、末尾の `closed` 行は順序だけを理由に不一致とはしません。
+
+## レビュー手順
+
+```sh
+make fclean
+make
+./account >/tmp/cpp00-ex02-current.log
+echo $?
 ```
 
-### 3.3 主要メソッド
-- コンストラクタ：初期預金額を受け取り口座を作成
-- デストラクタ：口座の終了処理
-- `makeDeposit`: 入金処理
-- `makeWithdrawal`: 引き出し処理
-- `displayStatus`: 口座状態の表示
+終了ステータスが `0` であることを確認します。次に、比較対象からtimestampだけを取り除きます。
 
-## 4. 実装の詳細（Account.cpp）
-
-### 4.1 タイムスタンプ処理
-```cpp
-void Account::_displayTimestamp(void) {
-    std::cout << "[19920104_091532] ";
-}
-```
-- すべての操作ログに付加される固定のタイムスタンプ
-- 実際の時刻ではなく、テスト用の固定値を使用
-
-### 4.2 アカウント作成処理
-```cpp
-Account::Account(int initial_deposit) {
-    _accountIndex = _nbAccounts++;  // アカウント番号の割り当て
-    _amount = initial_deposit;      // 初期残高の設定
-    _totalAmount += initial_deposit; // 総残高の更新
-    // ... 出力処理 ...
-}
+```sh
+sed -E 's/^\[[0-9]{8}_[0-9]{6}\] //' 19920104_091532.log > /tmp/cpp00-ex02-reference.normalized.log
+sed -E 's/^\[[0-9]{8}_[0-9]{6}\] //' /tmp/cpp00-ex02-current.log > /tmp/cpp00-ex02-current.normalized.log
 ```
 
-### 4.3 入金処理
-```cpp
-void Account::makeDeposit(int deposit) {
-    _amount += deposit;         // 残高更新
-    _totalAmount += deposit;    // 総残高更新
-    _nbDeposits++;             // 入金回数更新
-    _totalNbDeposits++;        // 総入金回数更新
-    // ... 出力処理 ...
-}
+この配布ログでは、最初の51行がデストラクタ出力より前です。その部分は順序を変えずに比較します。
+
+```sh
+diff -u \
+  <(sed -n '1,51p' /tmp/cpp00-ex02-reference.normalized.log) \
+  <(sed -n '1,51p' /tmp/cpp00-ex02-current.normalized.log)
 ```
 
-### 4.4 引き出し処理
-```cpp
-bool Account::makeWithdrawal(int withdrawal) {
-    if (_amount < withdrawal) { // 残高チェック
-        // ... 引き出し拒否の出力 ...
-        return false;
-    }
-    _amount -= withdrawal;      // 残高更新
-    _totalAmount -= withdrawal; // 総残高更新
-    _nbWithdrawals++;          // 引き出し回数更新
-    _totalNbWithdrawals++;     // 総引き出し回数更新
-    // ... 出力処理 ...
-    return true;
-}
+最後の8行は、課題文が許容するデストラクタ順の違いだけを無視して比較します。
+
+```sh
+diff -u \
+  <(tail -n 8 /tmp/cpp00-ex02-reference.normalized.log | sort) \
+  <(tail -n 8 /tmp/cpp00-ex02-current.normalized.log | sort)
 ```
 
-## 5. テストケース（Tests.cpp）
+どちらも差分がなければ、課題文が認める差を除いて見本ログと一致しています。`<(...)` はbashまたはzshで実行してください。
 
-### 5.1 テストデータ
-```cpp
-int const amounts[] = { 42, 54, 957, 432, 1234, 0, 754, 16576 }; // 初期預金額
-int const d[] = { 5, 765, 564, 2, 87, 23, 9, 20 };              // 入金テスト額
-int const w[] = { 321, 34, 657, 4, 76, 275, 657, 7654 };        // 引き出しテスト額
-```
+## `Account.hpp` とログから確認する項目
 
-### 5.2 テスト手順
-1. 複数アカウントの作成
-2. 各アカウントの状態表示
-3. 一連の入金処理
-4. 状態確認
-5. 一連の引き出し処理
-6. 最終状態確認
+- [ ] 口座作成時にindex、初期残高、口座数、全体残高を正しく設定する
+- [ ] `displayAccountsInfos()` が口座数、合計残高、全体の入出金回数を表示する
+- [ ] `displayStatus()` が口座ごとの残高と入出金回数を表示する
+- [ ] `makeDeposit()` が口座と全体の残高・入金回数を更新する
+- [ ] `makeWithdrawal()` が成功時だけ残高・出金回数を更新して `true` を返す
+- [ ] 残高不足時は状態を変更せず `withdrawal:refused` を表示して `false` を返す
+- [ ] 各ログ行がtimestampから始まる
+- [ ] timestamp以外の句読点、項目名、項目順、値が見本ログと一致する
+- [ ] `closed` 行の順序を除き、各口座の最終状態が見本ログと一致する
+- [ ] 共通禁止事項に違反していない
+- [ ] Makefileの `all`, `clean`, `fclean`, `re` が動作する
 
-## 6. 出力フォーマット
+## 課題文が指定していないこと
 
-### 6.1 アカウント作成時
-```
-[timestamp] index:N;amount:M;created
-```
+- timestampをUnix epochからの秒数で表示すること
+- timestamp取得・整形に使う具体的な関数
+- デストラクタを見本ログと同じ順序で呼ぶこと
 
-### 6.2 入金時
-```
-[timestamp] index:N;p_amount:M;deposit:D;amount:A;nb_deposits:X
-```
+timestampについて課題文が直接指定しているのは「見本ログとは値が異なる」という点です。`[YYYYMMDD_HHMMSS]` は配布ログから読み取れる形式であり、生のUnix秒を要求する根拠は課題文にはありません。
 
-### 6.3 引き出し時
-```
-[timestamp] index:N;p_amount:M;withdrawal:W;amount:A;nb_withdrawals:X
-```
-または
-```
-[timestamp] index:N;p_amount:M;withdrawal:refused
-```
+## この提出の実装メモ
 
-## 7. メモリ管理の特徴
-- `std::vector`を使用したアカウント管理
-- デストラクタの呼び出しは逆順（LIFO原則）
-- メモリリークなし（自動メモリ管理）
-
-## 8. エラー処理
-- 引き出し時の残高チェック
-- 不正な操作の防止（privateコンストラクタ）
-
-## 9. コンパイルと実行
-
-### 9.1 コンパイル方法
-```bash
-make        # プログラムをコンパイル
-make clean  # オブジェクトファイルを削除
-make fclean # オブジェクトファイルと実行ファイルを削除
-make re     # 完全に再コンパイル
-```
-
-### 9.2 実行方法
-```bash
-./account
-```
-実行すると、テストケースが自動的に実行され、結果が標準出力に表示されます。
+この実装は `std::time` で現在時刻を取得し、`std::strftime` で見本と同じ `[YYYYMMDD_HHMMSS]` 形式へ整形しています。口座数、合計残高、全体の入出金回数は、配布された `Account.hpp` の宣言どおりstaticメンバとして定義しています。
