@@ -25,6 +25,7 @@
 # Project binaries by convention
 module01/ex00/zombie
 module01/ex01/zombieHorde
+module01/ex02/brain
 module01/ex03/violence
 module01/ex04/replace
 module01/ex05/harl
