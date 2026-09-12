@@ -1,7 +1,7 @@
 #include "ClapTrap.hpp"
 #include <iostream>
 
-bool ClapTrap::canAct_() const { return _hitPoints > 0 && _energyPoints > 0; };
+bool ClapTrap::canAct_() const { return _hitPoints > 0 && _energyPoints > 0; }
 
 void ClapTrap::logState_(const std::string& prefix) const {
     std::cout << prefix
@@ -9,6 +9,11 @@ void ClapTrap::logState_(const std::string& prefix) const {
               << ", HP=" << _hitPoints
               << ", EN=" << _energyPoints
               << ", AD=" << _attackDamage << "]\n";
+}
+
+ClapTrap::ClapTrap()
+    : _name("Default"), _hitPoints(10), _energyPoints(10), _attackDamage(0) {
+    std::cout << "ClapTrap default constructor called for " << _name << "\n";
 }
 
 ClapTrap::ClapTrap(const std::string& name)
@@ -81,4 +86,3 @@ void ClapTrap::beRepaired(unsigned int amount) {
               << amount << " hit points!\n";
     logState_(" after repair");
 }
-

@@ -28,7 +28,7 @@ Fixed::~Fixed() {
 // New in ex01
 Fixed::Fixed(int value) {
     std::cout << "Int constructor called" << std::endl;
-    this->_raw = value << _fracBits;
+    this->_raw = value * (1 << _fracBits);
 }
 
 Fixed::Fixed(float value) {
@@ -41,7 +41,7 @@ float Fixed::toFloat(void) const {
 }
 
 int Fixed::toInt(void) const {
-    return this->_raw >> _fracBits;
+    return this->_raw / (1 << _fracBits);
 }
 
 // From ex00
@@ -60,4 +60,3 @@ std::ostream& operator<<(std::ostream& os, const Fixed& x) {
     os << x.toFloat();
     return os;
 }
-

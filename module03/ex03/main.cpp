@@ -2,6 +2,7 @@
 #include <iostream>
 
 int main() {
+    DiamondTrap defaultTrap;
     std::cout << "--- Construct DiamondTrap d1 ---\n";
     DiamondTrap d1("Diamondy");
 
@@ -10,6 +11,8 @@ int main() {
 
     std::cout << "--- Attack via ScavTrap attack ---\n";
     d1.attack("dummy");
+    d1.guardGate();
+    d1.highFivesGuys();
 
     std::cout << "--- Copy-construct and assign ---\n";
     DiamondTrap d2 = d1;
@@ -27,4 +30,3 @@ int main() {
     std::cout << "--- Destructors will chain on exit ---\n";
     return 0;
 }
-

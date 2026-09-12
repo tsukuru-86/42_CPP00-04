@@ -1,7 +1,13 @@
 #include "FragTrap.hpp"
+#include "ScavTrap.hpp"
 #include <iostream>
 
 int main() {
+    ScavTrap scav("Serena");
+    scav.attack("dummy");
+    scav.guardGate();
+
+    FragTrap defaultTrap;
     std::cout << "--- Construct FragTrap f1 ---\n";
     FragTrap f1("Franny");
 
@@ -24,4 +30,3 @@ int main() {
     std::cout << "--- Destructors will chain on exit ---\n";
     return 0;
 }
-

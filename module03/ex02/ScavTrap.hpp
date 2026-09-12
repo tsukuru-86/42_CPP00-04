@@ -1,10 +1,9 @@
 #ifndef SCAVTRAP_HPP
 #define SCAVTRAP_HPP
 
-#include <string>
 #include "ClapTrap.hpp"
 
-class ScavTrap : virtual public ClapTrap
+class ScavTrap : public ClapTrap
 {
     public:
         ScavTrap();
@@ -14,7 +13,7 @@ class ScavTrap : virtual public ClapTrap
         ~ScavTrap();
 
         void attack(const std::string& target);
-        void guardGate();
+        void guardGate(void);
 };
 
 #endif

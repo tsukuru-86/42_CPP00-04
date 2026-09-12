@@ -1,6 +1,16 @@
 #include "DiamondTrap.hpp"
 #include <iostream>
 
+DiamondTrap::DiamondTrap()
+    : ClapTrap("Default_clap_name"), ScavTrap("Default"),
+      FragTrap("Default"), _name("Default") {
+    _hitPoints = 100;
+    _energyPoints = 50;
+    _attackDamage = 30;
+    std::cout << "DiamondTrap default constructor called for " << _name
+              << " (ClapTrap name: " << ClapTrap::_name << ")\n";
+}
+
 DiamondTrap::DiamondTrap(const std::string& name)
     : ClapTrap(name + "_clap_name"), ScavTrap(name), FragTrap(name), _name(name) {
     // Set desired stats: HP from FragTrap (100), EN from ScavTrap (50), AD from FragTrap (30)
@@ -17,9 +27,7 @@ DiamondTrap::DiamondTrap(const DiamondTrap& other)
 
 DiamondTrap& DiamondTrap::operator=(const DiamondTrap& other) {
     if (this != &other) {
-        // Assign through each base to keep ClapTrap state consistent
-        ScavTrap::operator=(other);
-        FragTrap::operator=(other);
+        ClapTrap::operator=(other);
         _name = other._name;
     }
     std::cout << "DiamondTrap copy-assign called for " << _name << "\n";

@@ -2,6 +2,7 @@
 #include <iostream>
 
 int main() {
+    ScavTrap defaultTrap;
     std::cout << "--- Construct ScavTrap s1 ---\n";
     ScavTrap s1("Serena");
 
@@ -24,4 +25,3 @@ int main() {
     std::cout << "--- Destructors will chain on exit ---\n";
     return 0;
 }
-

@@ -23,14 +23,17 @@
 /CPP_42/
 
 # Project binaries by convention
+module01/ex00/zombie
 module01/ex01/zombieHorde
 module01/ex03/violence
 module01/ex04/replace
 module01/ex05/harl
+module01/ex06/harlFilter
 
 module02/ex00/ex00
 module02/ex01/ex01
 module02/ex02/ex02
+module02/ex03/bsp
 
 module03/ex00/ClapTrap
 module03/ex01/ScavTrap

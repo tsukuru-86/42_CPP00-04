@@ -6,7 +6,7 @@
 class Harl {
 public:
     Harl();
-    void complain(const std::string &level);
+    void complain(std::string level);
 
 private:
     void debug();

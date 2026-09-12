@@ -12,29 +12,27 @@ ScavTrap::ScavTrap(const std::string& name) : ClapTrap(name) {
     _hitPoints = 100;
     _energyPoints = 50;
     _attackDamage = 20;
-    std::cout << "ScavTrap ctor called for " << _name << "\n";
+    std::cout << "ScavTrap constructor called for " << _name << "\n";
 }
 
 ScavTrap::ScavTrap(const ScavTrap& other) : ClapTrap(other) {
-    std::cout << "ScavTrap copy-ctor called for " << _name << "\n";
+    std::cout << "ScavTrap copy constructor called for " << _name << "\n";
 }
 
 ScavTrap& ScavTrap::operator=(const ScavTrap& other) {
-    if (this != &other) {
+    if (this != &other)
         ClapTrap::operator=(other);
-    }
-    std::cout << "ScavTrap copy-assign called for " << _name << "\n";
-    return *this;
+    std::cout << "ScavTrap copy assignment called for " << _name << "\n";
+    return (*this);
 }
 
 ScavTrap::~ScavTrap() {
-    std::cout << "ScavTrap dtor called for " << _name << "\n";
+    std::cout << "ScavTrap destructor called for " << _name << "\n";
 }
 
 void ScavTrap::attack(const std::string& target) {
     if (_hitPoints == 0 || _energyPoints == 0) {
-        std::cout << "ScavTrap " << _name
-                  << " cannot attack (no HP or EN).\n";
+        std::cout << "ScavTrap " << _name << " cannot attack (no HP or energy).\n";
         return;
     }
     --_energyPoints;
@@ -42,6 +40,6 @@ void ScavTrap::attack(const std::string& target) {
               << ", causing " << _attackDamage << " points of damage!\n";
 }
 
-void ScavTrap::guardGate() {
+void ScavTrap::guardGate(void) {
     std::cout << "ScavTrap " << _name << " is now in Gate keeper mode.\n";
 }

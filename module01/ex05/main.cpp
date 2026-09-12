@@ -1,10 +1,10 @@
 #include "Harl.hpp"
 #include <iostream>
 
-int main() {
+int main(void) {
     Harl harl;
 
-    const std::string levels[] = {"DEBUG", "INFO", "WARNING", "ERROR", "UNKNOWN"};
+    const std::string levels[] = {"DEBUG", "INFO", "WARNING", "ERROR"};
     const size_t levelCount = sizeof(levels) / sizeof(levels[0]);
 
     for (size_t i = 0; i < levelCount; ++i) {
@@ -13,5 +13,5 @@ int main() {
         std::cout << std::endl;
     }
 
-    return 0;
+    return (0);
 }

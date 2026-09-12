@@ -1,8 +1,6 @@
 #include <iostream>
 #include "Fixed.hpp"
 
-//https://claude.ai/public/artifacts/e50cc71a-c2a7-4f6d-bc1f-6333278e2153
-
 int main( void ) {
     Fixed a;
     Fixed const b( 10 );
@@ -19,4 +17,3 @@ int main( void ) {
     std::cout << "d is " << d.toInt() << " as integer" << std::endl;
     return 0;
 }
-

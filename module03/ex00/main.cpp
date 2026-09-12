@@ -1,6 +1,7 @@
 #include "ClapTrap.hpp"
 
 int main() {
+    ClapTrap defaultTrap;
     ClapTrap a("Alpha");
     ClapTrap b = a;            // copy ctor
     ClapTrap c("Charlie");

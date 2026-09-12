@@ -2,7 +2,7 @@
 #include <string>
 #include <iostream>
 
-bool ClapTrap::canAct_() const { return _hitPoints > 0 && _energyPoints > 0; };
+bool ClapTrap::canAct_() const { return _hitPoints > 0 && _energyPoints > 0; }
 
 void ClapTrap::logState_(const std::string& prefix) const {
     std::cout << prefix
@@ -12,9 +12,14 @@ void ClapTrap::logState_(const std::string& prefix) const {
               << ", AD=" << _attackDamage << "]\n";
 }
 
+ClapTrap::ClapTrap()
+	: _name("Default"), _hitPoints(10), _energyPoints(10), _attackDamage(0) {
+	std::cout << "ClapTrap default constructor called for " << _name << "\n";
+}
+
 ClapTrap::ClapTrap(const std::string& name)
 	: _name(name), _hitPoints(10), _energyPoints(10), _attackDamage(0) {
-		std::cout << "Clap Trap ctor called for " << _name << "\n";
+		std::cout << "ClapTrap constructor called for " << _name << "\n";
 		logState_(" created");
 }
 
