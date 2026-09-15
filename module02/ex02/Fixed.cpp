@@ -63,11 +63,47 @@ bool Fixed::operator<=(const Fixed& rhs) const { return this->_raw <= rhs._raw; 
 bool Fixed::operator==(const Fixed& rhs) const { return this->_raw == rhs._raw; }
 bool Fixed::operator!=(const Fixed& rhs) const { return this->_raw != rhs._raw; }
 
-// Arithmetic (use float conversions for simplicity and readability)
-Fixed Fixed::operator+(const Fixed& rhs) const { return Fixed(this->toFloat() + rhs.toFloat()); }
-Fixed Fixed::operator-(const Fixed& rhs) const { return Fixed(this->toFloat() - rhs.toFloat()); }
-Fixed Fixed::operator*(const Fixed& rhs) const { return Fixed(this->toFloat() * rhs.toFloat()); }
-Fixed Fixed::operator/(const Fixed& rhs) const { return Fixed(this->toFloat() / rhs.toFloat()); }
+// Arithmetic
+Fixed Fixed::operator+(const Fixed& rhs) const {
+    Fixed result;
+
+    result._raw = this->_raw + rhs._raw;
+    return result;
+}
+
+Fixed Fixed::operator-(const Fixed& rhs) const {
+    Fixed result;
+
+    result._raw = this->_raw - rhs._raw;
+    return result;
+}
+
+Fixed Fixed::operator*(const Fixed& rhs) const {
+    const long scale = 1L << _fracBits;
+    const long product = static_cast<long>(this->_raw) * rhs._raw;
+    Fixed result;
+
+    if (product >= 0)
+        result._raw = static_cast<int>((product + scale / 2) / scale);
+    else
+        result._raw = static_cast<int>((product - scale / 2) / scale);
+    return result;
+}
+
+Fixed Fixed::operator/(const Fixed& rhs) const {
+    const long numerator = static_cast<long>(this->_raw) * (1L << _fracBits);
+    const long denominator = rhs._raw;
+    long quotient = numerator / denominator;
+    const long remainder = numerator % denominator;
+    const long absoluteRemainder = remainder < 0 ? -remainder : remainder;
+    const long absoluteDenominator = denominator < 0 ? -denominator : denominator;
+    Fixed result;
+
+    if (absoluteRemainder * 2 >= absoluteDenominator)
+        quotient += ((numerator < 0) != (denominator < 0)) ? -1 : 1;
+    result._raw = static_cast<int>(quotient);
+    return result;
+}
 
 // Increment / Decrement by the smallest epsilon (1 / 2^_fracBits)
 Fixed& Fixed::operator++() {
